@@ -1,2 +1,4 @@
-# py-stock-picker
-Py-Stock-Picker is a python script that predicts optimal buy and sell dates for a given dataset of stocks.
+# Stock-Pickz
+A python script that predicts optimal buy and sell dates for a given dataset of stocks.
+
+Note : Example Dataset is provided in the repository (data.csv)

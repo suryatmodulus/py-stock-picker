@@ -1,4 +1,6 @@
 # Stock-Pickz
 A python script that predicts optimal buy and sell dates for a given dataset of stocks.
 
-Note : Example Dataset is provided in the repository (data.csv)
+Usage : ```python stockpicker.py 'path-to-csv-file'```
+
+###### Note : Example Dataset is provided in this repository (data.csv)

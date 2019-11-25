@@ -73,7 +73,7 @@ def getStockCode(filepath):
 
 
 def validateDate(date,dtype):
-  for fmt in ('%d-%b-%Y','%d-%m-%Y','%d/%m/%Y'):
+  for fmt in ('%d-%b-%Y','%d-%m-%Y','%d/%b/%Y','%d/%m/%Y','%Y-%b-%d','%Y-%m-%d','%Y/%b/%d','%Y/%m/%b'):
     try:
       date = datetime.strptime(date,fmt).date()
       if(dtype=="End" and date <= start_date):

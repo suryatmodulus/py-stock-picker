@@ -201,7 +201,7 @@ if __name__ == "__main__":
   if(filepath==None):
     parser.error("Specify path to CSV file")
   elif(not pathlib.Path(filepath).exists()):
-    print("[x] File Does Not Exist!")
+    print("[x] CSV File Does Not Exist!")
   elif(not validateCSV(filepath)):
     print("[x] Not Valid CSV File or Corrupted Data!")
   else:

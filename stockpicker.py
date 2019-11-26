@@ -7,6 +7,7 @@ import typing as T
 import difflib
 from datetime import datetime,timedelta,date
 import statistics
+from sys import maxsize 
 
 stock_codes = []
 min_date = None
@@ -14,19 +15,17 @@ max_date = None
 stock_data = {}
 stock_dates = []
 stock_prices = []
-stock_diff = []
 start_date = None
 end_date = None
 
 def resetStockData():
-  global min_date,max_date,stock_data,stock_dates,stock_prices,stock_diff,start_date,end_date
+  global min_date,max_date,stock_data,stock_dates,stock_prices,start_date,end_date
   
   min_date = None
   max_date = None
   stock_data = {}
   stock_dates = []
   stock_prices = []
-  stock_diff = []
   start_date = None
   end_date = None
 
@@ -117,44 +116,59 @@ def parseStockData():
   for i in range(delta.days+1):
     date = (start_date + timedelta(days=i)).strftime('%d-%b-%Y')
     if(date in stock_data):
-      if(len(stock_dates)==0):
-        stock_diff.append(0.0)
-      else:
-        stock_diff.append(stock_data[date] - stock_prices[-1])
       stock_prices.append(stock_data[date])
       stock_dates.append(date)
     else:
       if(len(stock_dates)>0):
-        stock_diff.append(0.0)
         stock_prices.append(stock_prices[-1])
         stock_dates.append(date)
 
+def maxProfit(prices,size):
+  max_start = 0
+  max_end = 0
+  max_profit = 0
+  cur_start = 0
+  cur_end = 0
+  cur_buy = prices[0]
+  cur_sell = 0
+  cur_profit = 0
+  for i in range(1,size):
+    if(prices[i]==cur_buy):
+      continue
+    elif(prices[i] < cur_buy):
+      if(i==size-1):
+        continue
+      if(cur_profit > max_profit):
+        max_start = cur_start
+        max_end = cur_end
+        max_profit = cur_profit
+      cur_buy = prices[i]
+      cur_sell = prices[i+1]
+      cur_start = i
+      cur_end = i+1
+      cur_profit = 0
+    else:
+      if(prices[i] >= cur_sell):
+        cur_sell = prices[i]
+        cur_end = i
+      else:
+        continue
+    if(cur_sell>cur_buy):
+      cur_profit = cur_sell - cur_buy
 
-def maxProfit(array):
-	max_so_far = 0
-	max_ending_here = 0
-	start = 0
-	end = 0
-	s = 0
-	for i in range(0,len(array)): 
-		max_ending_here += array[i] 
-		if max_so_far < max_ending_here: 
-			max_so_far = max_ending_here 
-			start = s 
-			end = i 
-		if max_ending_here < 0: 
-			max_ending_here = 0
-			s = i+1
-	return start,end,max_so_far
-      
- 
+  if(max_profit > cur_profit):
+    return max_start,max_end,max_profit
+  else:
+    return cur_start,cur_end,cur_profit
+
+
 def getOutput():
-  if(len(stock_prices)>2):
+  if(len(stock_prices)>=2):
     print("\n******* Output *******\n")
     print(f"Median : {statistics.mean(stock_prices):.2f}")
     print(f"Std : {statistics.stdev(stock_prices):.2f}")
-    i,j,profit = maxProfit(stock_diff)
-    if(i!=j or profit!=0):
+    i,j,profit = maxProfit(stock_prices,len(stock_prices))
+    if(i!=j or j>i or profit!=0):
       print(f"Buy Date : {stock_dates[i]}")
       print(f"Sell Date : {stock_dates[j]}")
       print(f"Profit : Rs. {(profit*100):.2f} (For 100 shares)")
@@ -214,4 +228,3 @@ if __name__ == "__main__":
         resetStockData()
       else:
         do_exit = True
- 

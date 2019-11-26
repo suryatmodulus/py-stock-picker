@@ -79,7 +79,7 @@ def validateDate(date,dtype):
         print("[x] End Date should be greater that Start date! ")
         new_date = input("=> Re-Enter End Date : ")
         return False, new_date
-      elif(date<min_date or date>max_date):
+      elif(date<min_date or date>=max_date):
         if(dtype=="Start"):
           answer = input(f"[x] Date out of range! Do you want to set (Start date) to {min_date.strftime(fmt)} ? (yes|no) : ").lower()
           if(answer=="yes"):
@@ -87,6 +87,8 @@ def validateDate(date,dtype):
           else:
             break
         elif(dtype=="End"):
+          if(date==max_date):
+            return True,date
           answer = input(f"[x] Date out of range! Do you want to set (End date) to {max_date.strftime(fmt)} ? (yes|no) : ").lower()
           if(answer=="yes"):
             return True, max_date
@@ -168,7 +170,7 @@ def getOutput():
     print(f"Median : {statistics.mean(stock_prices):.2f}")
     print(f"Std : {statistics.stdev(stock_prices):.2f}")
     i,j,profit = maxProfit(stock_prices,len(stock_prices))
-    if(i!=j or j>i or profit!=0):
+    if(profit > 0.0):
       print(f"Buy Date : {stock_dates[i]}")
       print(f"Sell Date : {stock_dates[j]}")
       print(f"Profit : Rs. {(profit*100):.2f} (For 100 shares)")

@@ -5,4 +5,4 @@ Usage : ```python stockpicker.py 'path-to-csv-file'```
 
 ###### Note : Example Dataset is provided in this repository (data.csv)
 
-### Supported Python Version : > 3.6
+### Supported Python Version : > 3.6+
